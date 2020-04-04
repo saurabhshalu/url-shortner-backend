@@ -1,7 +1,6 @@
 const express = require('express');
 const serverless = require('serverless-http');
 const dotenv = require('dotenv').config();
-const retry = require('retry');
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -58,10 +57,24 @@ router.get('/',(req,res)=> {
    
 });
 
+var count = 0;
+
 router.get('/random',(req,res)=> {
-    res.json({
-        'random': (0|Math.random()*9e6).toString(36)
-    });
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var waitTill = new Date(new Date().getTime() + 2 * 1000);
+    while(waitTill > new Date()){}
+    console.log('request is being handeled....')
+    if(++count>4) {
+        res.json({
+            'random': (0|Math.random()*9e6).toString(36)
+        });
+    }
+    else {
+        res.status(500).json({
+            'error': 'something went wrong, duplicate found ;)'
+        });
+    }
 });
 
 // router.post('/test',(req,res)=> {
@@ -70,8 +83,8 @@ router.get('/random',(req,res)=> {
 //         'test': JSON.parse(req.body)
 //     });
 // });
-
 app.use('/.netlify/functions/api',router);
+
 
 module.exports.handler = serverless(app);
 
