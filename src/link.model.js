@@ -38,6 +38,13 @@ const LinkSchema = new Schema({
   url: {
     type: String,
     required: true
+  },
+  date: {
+    type: Date
+  },
+  clicks: {
+    type: Number,
+    default: 0
   }
 })
 LinkSchema.plugin(uniqueValidator)
