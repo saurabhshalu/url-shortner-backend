@@ -99,11 +99,76 @@ router.post('/test',(req,res)=> {
 });
 
 
+//------------------------------------------------------------------------------------------------------------------------------------------------
+router.post('/save', (req,res)=> {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    var random_string = (0|Math.random()*9e6).toString(36)
+    var data = JSON.parse(req.body);
+    const link = new Link({
+        code: random_string, 
+        url: data.url,
+        date: new Date(),
+        clicks: 0
+    });
+    link.save().then(() => {
+        res.json({
+            'code': random_string
+        });
+        console.log("new link shorten;)");    
+    }).catch(err => {
+        res.status(500).json({
+            'error': 'duplicate entry'
+        });
+        console.log('duplicate random string:(', err);
+    });
+});
 
 
+router.post('/get', (req,res)=> {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var data = JSON.parse(req.body);
+    var qcode = data.code;
+    
+    Link.findOneAndUpdate({ code: qcode }, { $inc: { clicks: 1 } }, function(err,doc){
+        if(err) {
+            res.status(500);
+        }
+        else {
+            if(doc!=null) {
+                res.json({
+                    'url': doc.url
+                });
+            }
+            else {
+                res.status(500);
+            }
+            
+        }
+    });
+});
 
+// router.get('/get/{id}', (req,res)=> {
+//     console.log('helloooooooooooooooooooooooooooooooooooooooooooo');
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-
+//     var qcode = req.params.id;
+//     Link.findOneAndUpdate({ code: qcode }, { $inc: { clicks: 1 } }, function(err,doc){
+//         if(err) {
+//             res.status(500).json({
+//                 'error': 'data not found'
+//             });
+//         }
+//         else {
+//             res.json({
+//                 'url': doc.url
+//             });
+//         }
+//     });
+// });
 
 
 
