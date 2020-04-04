@@ -83,8 +83,31 @@ router.get('/random',(req,res)=> {
 //         'test': JSON.parse(req.body)
 //     });
 // });
-app.use('/.netlify/functions/api',router);
 
+
+
+router.post('/test',(req,res)=> {
+    
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    console.log('testing is here!')
+    console.log(JSON.parse(req.body))
+    var data = JSON.parse(req.body);
+    res.json({
+        'test': data.myurl
+    });
+});
+
+
+
+
+
+
+
+
+
+
+app.use('/.netlify/functions/api',router);
 
 module.exports.handler = serverless(app);
 
