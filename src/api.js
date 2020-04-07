@@ -131,7 +131,7 @@ router.post('/get', (req,res)=> {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     var data = JSON.parse(req.body);
     var qcode = data.code;
-    
+
     Link.findOneAndUpdate({ code: qcode }, { $inc: { clicks: 1 } }, function(err,doc){
         if(err) {
             res.status(500);
@@ -149,6 +149,32 @@ router.post('/get', (req,res)=> {
         }
     });
 });
+
+
+router.post('/history', (req,res)=> {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var data = JSON.parse(req.body);
+    var qcode = data.code;
+
+
+    Link.findOne({code: qcode}, function(err, doc){
+        if(err) {
+            res.status(500);
+        }
+        else {
+            if(doc!=null) {
+                res.json({
+                    'history': doc
+                });
+            }
+            else {
+                res.status(500);
+            }  
+        }
+    });
+});
+
 
 // router.get('/get/{id}', (req,res)=> {
 //     console.log('helloooooooooooooooooooooooooooooooooooooooooooo');
