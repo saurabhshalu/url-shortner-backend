@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #303A52;
+    color: #424043; /* #514371   #2e2a2f #424043*/
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.box {
+    background: #455068;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 3px;
+}
+
+
+
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -5 ;
+    width: 100vw;
+    height: 100vh;
+}
