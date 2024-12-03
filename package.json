@@ -22,7 +22,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.9.7",
+    "mongoose": "^8.8.3",
     "mongoose-unique-validator": "^2.0.3",
     "netlify-lambda": "^1.6.3",
     "serverless-http": "^2.3.2"
